@@ -1,12 +1,23 @@
+import { NavLink } from "react-router-dom"
+
 function NavBar() {
+
+
+
+
     return (
         <div>
-            <NavLink>
+            <NavLink exact to="/CarList">
+                Car List
+            </NavLink>
+            <NavLink exact to="/LogIn">
                 Log In
             </NavLink>
         </div>
     )
 }
+
+export default NavBar;
 
 // function Navbar() {
 //     return (

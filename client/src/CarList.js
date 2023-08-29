@@ -6,4 +6,4 @@ function CarList() {
     )
 }
 
-export default CarList
+export default CarList;
