@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 
-function LogIn({ onLogin }) {
+function SignUp({ onLogin }) {
 
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
@@ -14,7 +14,7 @@ function LogIn({ onLogin }) {
             password: password
         }
 
-        fetch("/login", {
+        fetch("/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -23,8 +23,7 @@ function LogIn({ onLogin }) {
         })
         .then((res) => {
             if(res.ok){
-                res.json().then((user) => onLogin(user))
-                setErrors(null)
+                res.json().then((data) => onLogin(data))
             } else {
                 res.json().then((e) => setErrors(e.errors))
             }
@@ -37,7 +36,8 @@ function LogIn({ onLogin }) {
 
     return (
         <div>
-            <h3>Try logging In!</h3>
+            <h3> All makes and models with HONEST reviews in one place! </h3>
+
             <form onSubmit={handleSubmit}>
                 <label>Username</label>
                 <br/>
@@ -47,21 +47,11 @@ function LogIn({ onLogin }) {
                 <br/>
                 <input onChange={(e) => setPassword(e.target.value)} value={password}/>
                 <br/>
-                <button type="submit">Log In</button>
+                <button type="submit">Sign Up</button>
             </form>
             {errors ? (<p>{`${errors}`}</p>) : null}
         </div>
     )
 }
 
-export default LogIn;
-
-
-// </form>
-// {isInvalidInput ? (
-//     <p>Oops - don't forget to fill out all fields above</p>
-// ) : null}
-// <p>note: when adding a pokemon it gives it a chance to be found in the wild</p>
-// </div>
-// )
-// }
+export default SignUp
