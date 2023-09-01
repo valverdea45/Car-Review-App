@@ -20,6 +20,21 @@ function App() {
     navigate("/")
   }
 
+  function onLogout() {
+
+    fetch("/logout", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify()
+    })
+
+    console.log(user)
+    setUser(null)
+    navigate("/")
+  }
+
 
   return (
     <div>
@@ -28,39 +43,12 @@ function App() {
         <Route path="/CarList" element={<CarList/>}/>
         <Route path="/LogIn" element={<LogIn onLogin={onLogin}/>}/>
         <Route path="/SignUp" element={<SignUp onLogin={onLogin}/>}/>
-        <Route path="/Profile" element={<Profile/>}/>
-        <Route exact path="/MyReviews">
-          <MyReviews/>
-        </Route>
-        <Route exact path="/">
-          <Home/>
-        </Route>
+        <Route path="/Profile" element={<Profile onLogout={onLogout}/>}/>
+        <Route path="/MyReviews" element={<MyReviews/>}/>
+        <Route path="/" element={<Home user={user}/>}/>
       </Routes>
     </div>
   )
 }
-
-//  <Navbar />
-//     <div className="box"/>
-//     <ClickMe/>
-//       <Switch>
-//         <Route exact path="/CaughtPokemon">
-//           <CaughtPokemon caughtPokemon={caughtPokemon} />
-//         </Route>
-//         <Route exact path="/UncaughtPokemon">
-//           <UncaughtPokemon uncaughtPokemon={uncaughtPokemon} />
-//         </Route>
-//         <Route exact path="/WildPokemon">
-//           <WildPokemon uncaughtPokemon={uncaughtPokemon} handleUpdatePokemon={handleUpdatePokemon}/>
-//         </Route>
-//         <Route exact path="/AddPokemon">
-//           <AddPokemon onAddPokemon={onAddPokemon} />
-//         </Route>
-//         <Route exact path="/">
-//           <Home />
-//         </Route>
-//       </Switch>
-//     </div>
-//   </UpdateFunctionContext.Provider>
 
 export default App;
