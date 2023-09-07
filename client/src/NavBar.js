@@ -11,22 +11,22 @@ function NavBar() {
         <div>
             { user ? (
             <div>
-            <NavLink exact to="/CarList">
-                Car List
+            <NavLink exact to="/AddCar">
+                Add Car
             </NavLink>
             <br/>
             <NavLink exact to="/Profile">
                 Profile
             </NavLink>
             <br/>
-            <NavLink exact to="/MyReviews">
-                My Reviews
+            <NavLink exact to="/Reviews">
+                Reviews
             </NavLink>
             </div>
             ) : 
            <div>
-            <NavLink exact to="/CarList">
-                Car List
+            <NavLink exact to="/Reviews">
+                Reviews
             </NavLink>
             <br/>
             <NavLink exact to="/LogIn">
