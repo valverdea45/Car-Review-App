@@ -1,10 +1,17 @@
 import React, { useState } from "react"
+import { useContext } from "react"
+import { UserContext } from "./context/user"
+import { useNavigate } from "react-router-dom"
 
-function LogIn({ onLogin }) {
+function LogIn() {
 
     const [ username, setUsername ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ errors, setErrors ] = useState(null)
+
+    const { setUser } = useContext(UserContext)
+
+    const navigate = useNavigate()
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -23,7 +30,10 @@ function LogIn({ onLogin }) {
         })
         .then((res) => {
             if(res.ok){
-                res.json().then((user) => onLogin(user))
+                res.json().then((user) => {
+                    setUser(user)
+                    navigate("/")
+                })
                 setErrors(null)
             } else {
                 res.json().then((e) => setErrors(e.errors))

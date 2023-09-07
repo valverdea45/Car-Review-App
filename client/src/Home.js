@@ -1,6 +1,11 @@
-export function Home({ user }) {
-    
+import { useContext } from "react";
+import { UserContext } from "./context/user";
 
+export function Home() {
+    
+    const { user } = useContext(UserContext)
+
+    
     return (
         <div>
             {user ? 
