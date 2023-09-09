@@ -6,7 +6,9 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index]
 
-  resources :reviews, only: [:index]
+  resources :reviews, only: [:create]
+
+  resources :cars, only: [:index, :create]
 
   get "/me", to: "users#show"
 

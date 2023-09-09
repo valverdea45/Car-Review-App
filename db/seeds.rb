@@ -9,3 +9,4 @@
 turtle = User.create(username: "CluelessTurtle", email: "theclueless@msn.com", bio: "they may think im clueless BUT IM NOT!", password: "turtle")
 
 rose = User.create(username: "Rose", email: "theprettiest@gmail.com", bio: "not to brag but I know I am pretty", password: "rosepedal")
+
