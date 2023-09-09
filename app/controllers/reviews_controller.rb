@@ -11,6 +11,7 @@ class ReviewsController < ApplicationController
         render json: review, status: :ok
     end 
 
+    
     private
 
     def review_params
