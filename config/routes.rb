@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   resources :reviews, only: [:create]
 
-  resources :cars, only: [:index, :create]
+  resources :cars, only: [:index, :create, :show]
 
   get "/me", to: "users#show"
 
