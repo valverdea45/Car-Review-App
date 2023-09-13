@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react"
 import { CarContext } from "./context/car"
 import { useNavigate } from "react-router-dom"
+import Car from "./Car"
 
 function Reviews() {
 
@@ -9,7 +10,7 @@ function Reviews() {
     const [ model, setModel ] = useState("")
     const{ cars } = useContext(CarContext)
 
-    console.log("from reviews component", cars)
+    const navigate = useNavigate()
     
  
    function handleSubmit(e) {
@@ -23,12 +24,17 @@ function Reviews() {
         model: model
     }
 
-    console.log(carToBeFound)
+    navigate("/Car")
 
     setMake("")
     setModel("")
     setYear("")
 
+   }
+
+
+   function filterMake(make) {
+    
    }
 
     return (
@@ -38,7 +44,7 @@ function Reviews() {
 
             {cars 
             ? 
-            (<form onSubmit={handleSubmit} >
+            (<div>
                 <br/>
                 <label>Make:</label>
                 <input onChange={(e) => setMake(e.target.value)} value={make} type="text"/>
@@ -49,8 +55,10 @@ function Reviews() {
                 <label>Year:</label>
                 <input onChange={(e) => setYear(e.target.value)} value={year} type="text"/>
                 <br/>
-                <button type="submit">Search</button>
-            </form>) 
+                <div>
+                    <Car/>
+                </div>
+            </div>)
             : 
             <p>Loading....</p>
             }
