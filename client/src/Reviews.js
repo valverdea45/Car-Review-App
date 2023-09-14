@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react"
 import { CarContext } from "./context/car"
-import { useNavigate } from "react-router-dom"
 import Car from "./Car"
 
 function Reviews() {
@@ -8,64 +7,81 @@ function Reviews() {
     const [ year, setYear ] = useState("")
     const [ make, setMake ] = useState("")
     const [ model, setModel ] = useState("")
-    const{ cars } = useContext(CarContext)
+    const { cars } = useContext(CarContext)
 
-    const navigate = useNavigate()
+     
+
+    let carsToDisplay = cars.filter((car) => {
+
+
+
+        // what I need from the filter: 
+        // if all input fields are empty show all cars
+        // test length of input fields(make.length > 0) then reverse(!) to true
+        // !make.length > 0 
+        // if ALL input fields are empty
+        // (!make.length > 0) && (!model.length > 0) && (!year.length > 0)
+        // if one input field is filled with full year/make/model or half way filled return the closest match
+        // if two input fields are filled or half way filled return the closest match 
+
+
+        let makeSet = make.length > 0
+        let modelSet = model.length > 0
+        let yearSet = year.length > 0
+
+
+
+        let correctMake = car.make.includes(make)
+        let correctModel = car.model.includes(model)
+        let correctYear = `${car.year}`.includes(year)
+
+        // ! inverts the false statment into a true 
+        // || if one or both statments are true return true
+        // && returns true if both statments are true 
+
+        // if make length is 0 its false but the ! makes it true thus making the whole || statement true
+        // (!makeSet || correctMake)
+        // same concept 
+        // (!modelSet || correctModel)
+        // if both || statements come out to be true then the && returns true
+        //                            true
+        // (!makeSet || correctMake) && (!modelSet || correctModel)
+        //                           true                              same concept testing if true
+        // (!makeSet || correctMake) && (!modelSet || correctModel) && (!yearSet || correctYear)
+
+        return (!makeSet || correctMake) && (!modelSet || correctModel) && (!yearSet || correctYear) 
+        })
+
     
- 
-   function handleSubmit(e) {
-    e.preventDefault()
+        // if the input field is not set return true
 
-    const integerYear = parseInt(year)
-
-    const carToBeFound = {
-        year: integerYear,
-        make: make,
-        model: model
-    }
-
-    navigate("/Car")
-
-    setMake("")
-    setModel("")
-    setYear("")
-
-   }
-
-
-   function filterMake(make) {
-    
-   }
 
     return (
         <div>
-            <p>Welcome to the Reviews page!</p>
+            <h1>Welcome to the Reviews page!</h1>
             <p>find honest reviews on any car!</p>
 
-            {cars 
-            ? 
-            (<div>
-                <br/>
+        
+            <div>
+                <div>
                 <label>Make:</label>
                 <input onChange={(e) => setMake(e.target.value)} value={make} type="text"/>
-                <br/>
                 <label>Model:</label>
                 <input onChange={(e) => setModel(e.target.value)} value={model} type="text"/>
-                <br/>
                 <label>Year:</label>
                 <input onChange={(e) => setYear(e.target.value)} value={year} type="text"/>
-                <br/>
-                <div>
-                    <Car/>
                 </div>
-            </div>)
-            : 
-            <p>Loading....</p>
-            }
+                <Car carsToDisplay={carsToDisplay} />
+            </div>
            
         </div>
     )
 }
+
+
+// const displayPlants = plants.filter((plant) => {
+//     return plant.name.toLowerCase().includes(search.toLowerCase())})
+
 
 // 0
 // : 

@@ -1,27 +1,16 @@
-import React, { useContext } from "react"
-import { CarContext } from "./context/car";
+import React from "react"
 
-function Car() {
+function Car({ carsToDisplay }) {
 
-    const { cars } = useContext(CarContext)
-
-
-    if (cars === null) {
-        return (
-            <p>loading...</p>
-        )
-    }
 
     return (
         <div>
-            {cars.map((car) => {
+            {carsToDisplay.map((car) => {
                 return (
                 <div>
-                    <br/>
-                    <h3>{car.year}</h3>
-                    <h3>{car.make}</h3> 
-                    <h3>{car.model}</h3>
-                    <br/>
+                    <p>{car.year}</p>
+                    <p>{car.make}</p> 
+                    <p>{car.model}</p>
                 </div>
                 )
             })}

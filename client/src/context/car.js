@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react"
 const CarContext = React.createContext()
 
 function CarProvider({ children }) {
-    const [ cars, setCars ] = useState(null)
+    const [ cars, setCars ] = useState([])
 
     useEffect(() => {
         fetch("/cars")
