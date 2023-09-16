@@ -1,6 +1,14 @@
 import React from "react"
 
 function Car({ carsToDisplay }) {
+    
+//     const carDisplayStyle = {
+//         margin: "1rem",
+//         padding: "1rem",
+//         borderRadius: "10px",
+//         boxShadow: "10px 10px black",
+//         background: "#f9f9f0"
+//   }
 
 
     return (
@@ -8,9 +16,9 @@ function Car({ carsToDisplay }) {
             {carsToDisplay.map((car) => {
                 return (
                 <div>
-                    <p>{car.year}</p>
-                    <p>{car.make}</p> 
-                    <p>{car.model}</p>
+                    <br/>
+                    <p>{car.year} {car.make} {car.model}</p>
+                    <img src={car.image} alt="Car" />
                 </div>
                 )
             })}

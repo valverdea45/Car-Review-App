@@ -1,5 +1,7 @@
 import React, { useContext, useState } from "react"
+import { Link } from "react-router-dom"
 import { CarContext } from "./context/car"
+import { UserContext } from "./context/user"
 import Car from "./Car"
 
 function Reviews() {
@@ -8,10 +10,10 @@ function Reviews() {
     const [ make, setMake ] = useState("")
     const [ model, setModel ] = useState("")
     const { cars } = useContext(CarContext)
+    const { user } = useContext(UserContext)
 
-     
 
-    let carsToDisplay = cars.filter((car) => {
+    const carsToDisplay = cars.filter((car) => {
 
 
 
@@ -31,8 +33,8 @@ function Reviews() {
 
 
 
-        let correctMake = car.make.includes(make)
-        let correctModel = car.model.includes(model)
+        let correctMake = car.make.toLowerCase().includes(make.toLowerCase())
+        let correctModel = car.model.toLowerCase().includes(model.toLowerCase())
         let correctYear = `${car.year}`.includes(year)
 
         // ! inverts the false statment into a true 
@@ -52,8 +54,6 @@ function Reviews() {
         return (!makeSet || correctMake) && (!modelSet || correctModel) && (!yearSet || correctYear) 
         })
 
-    
-        // if the input field is not set return true
 
 
     return (
@@ -61,7 +61,8 @@ function Reviews() {
             <h1>Welcome to the Reviews page!</h1>
             <p>find honest reviews on any car!</p>
 
-        
+        <div>
+        </div>
             <div>
                 <div>
                 <label>Make:</label>
@@ -71,7 +72,22 @@ function Reviews() {
                 <label>Year:</label>
                 <input onChange={(e) => setYear(e.target.value)} value={year} type="text"/>
                 </div>
-                <Car carsToDisplay={carsToDisplay} />
+
+                {carsToDisplay.length === 0 && user === null ? (
+                <div>
+                    <p>Didn't find what your looking for?</p>
+                    <p>try <Link to="/LogIn">logging in</Link> and adding the car!</p>
+                </div>) 
+                : 
+                carsToDisplay.length === 0 && typeof user === 'object' ? (
+                    <div>
+                        <p>Didn't find what your looking for?</p>
+                        <p>try <Link to="/AddCar">adding a car!</Link></p>
+                    </div>
+                ) :
+                <Car carsToDisplay={carsToDisplay}/>
+                }
+                
             </div>
            
         </div>
