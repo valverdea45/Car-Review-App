@@ -95,8 +95,7 @@ function Reviews() {
 }
 
 
-// const displayPlants = plants.filter((plant) => {
-//     return plant.name.toLowerCase().includes(search.toLowerCase())})
+
 
 
 // 0

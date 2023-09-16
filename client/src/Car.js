@@ -1,7 +1,8 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 
 function Car({ carsToDisplay }) {
-    
+
 //     const carDisplayStyle = {
 //         margin: "1rem",
 //         padding: "1rem",
@@ -10,6 +11,18 @@ function Car({ carsToDisplay }) {
 //         background: "#f9f9f0"
 //   }
 
+const imageDisplay = {
+    height: "15rem",
+    width: "22rem"
+}
+
+const navigate = useNavigate()
+
+function handleClick(car) {
+    navigate("/ReviewPage", {state: car})
+}
+
+    console.log(carsToDisplay)
 
     return (
         <div>
@@ -18,7 +31,9 @@ function Car({ carsToDisplay }) {
                 <div>
                     <br/>
                     <p>{car.year} {car.make} {car.model}</p>
-                    <img src={car.image} alt="Car" />
+                    <img src={car.image} alt="Car" style={imageDisplay}/>
+                    <br/>
+                    <button onClick={() => handleClick(car)}> Reviews </button>
                 </div>
                 )
             })}
