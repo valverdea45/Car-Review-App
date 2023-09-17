@@ -1,6 +1,6 @@
 class CarsController < ApplicationController
 
-    skip_before_action :authorize, only: [:index, :create, :show]
+    skip_before_action :authorize, only: [:index, :show]
 
     def create
         new_car = Car.create!(car_params)
