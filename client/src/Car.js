@@ -19,10 +19,11 @@ const imageDisplay = {
 const navigate = useNavigate()
 
 function handleClick(car) {
-    navigate("/ReviewPage", {state: car})
+    navigate("/ReviewPage", {state: car.id})
 }
 
     console.log(carsToDisplay)
+    
 
     return (
         <div>
@@ -31,7 +32,7 @@ function handleClick(car) {
                 <div>
                     <br/>
                     <p>{car.year} {car.make} {car.model}</p>
-                    <img src={car.image} alt="Car" style={imageDisplay}/>
+                    <img src={car.image} alt={car.make} style={imageDisplay}/>
                     <br/>
                     <button onClick={() => handleClick(car)}> Reviews </button>
                 </div>

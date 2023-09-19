@@ -12,7 +12,6 @@ function Reviews() {
     const { cars } = useContext(CarContext)
     const { user } = useContext(UserContext)
 
-
     const carsToDisplay = cars.filter((car) => {
 
 

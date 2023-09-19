@@ -13,7 +13,7 @@ function UserProvider({ children }) {
             if(res.ok) {
                 res.json().then((data) => setUser(data))
             } else {
-                res.json().then(() => setUser(null))
+                setUser(null)
             }
         })
     }, [])

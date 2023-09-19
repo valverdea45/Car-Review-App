@@ -8,9 +8,6 @@ class CarsController < ApplicationController
     end
 
     def index
-        # car = Car.find_by(car_params)
-        # render json: car, include: [:reviews], status: :ok
-
         cars = Car.all
         render json: cars, include: [:reviews], status: :ok
     end
