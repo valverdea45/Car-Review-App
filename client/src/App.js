@@ -5,9 +5,9 @@ import NavBar from "./NavBar"
 import LogIn from "./LogIn"
 import SignUp from "./SignUp";
 import Profile from "./Profile";
-import Reviews from "./Reviews";
+import CarList from "./CarList";
 import Car from "./Car"
-import ReviewPage from "./ReviewPage";
+import ReviewsList from "./ReviewsList";
 
 function App() {
 
@@ -19,10 +19,10 @@ function App() {
         <Route path="/LogIn" element={<LogIn/>}/>
         <Route path="/SignUp" element={<SignUp/>}/>
         <Route path="/Profile" element={<Profile/>}/>
-        <Route path="/Reviews" element={<Reviews/>}/>
+        <Route path="/CarList" element={<CarList/>}/>
         <Route path="/Car" element={<Car/>}/>
         <Route path="/" element={<Home/>}/>
-        <Route path="/ReviewPage" element={<ReviewPage/>}/>
+        <Route path="/ReviewsList" element={<ReviewsList/>}/>
         
       </Routes>
     </div>

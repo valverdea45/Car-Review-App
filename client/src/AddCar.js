@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { CarContext } from "./context/car";
 import { useNavigate } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 
 
 function AddCar() {
@@ -40,7 +39,7 @@ function AddCar() {
             if(res.ok){
             res.json().then((newCar) => {
                 setCars([...cars, newCar])
-                navigate("/Reviews")
+                navigate("/CarList")
             })
             setErrors(null)    
             } else {

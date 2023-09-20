@@ -2,12 +2,12 @@ import React, { useState, useContext } from "react"
 import { useLocation } from "react-router-dom"
 import { CarContext } from "./context/car"
 import { UserContext } from "./context/user"
+import Review from "./Review"
 
-function ReviewPage() {
+function ReviewsList() {
 
 
     const [ showReviewForm, setShowReviewForm ] = useState(false)
-    const [ showEditForm, setShowEditForm ] = useState(false)
     const [ body, setBody ] = useState("")
     const location = useLocation()
     const carId = location.state
@@ -15,7 +15,8 @@ function ReviewPage() {
     const { user } = useContext(UserContext)
     const [ errors, setErrors ] = useState(false)
 
-    const car = cars.find((individualCar) => {
+
+    const car = cars?.find((individualCar) => {
         return individualCar.id === carId
     })
 
@@ -64,14 +65,44 @@ function ReviewPage() {
                 setErrors(true)
             }
         })
+        setBody("")
+
+    }
+
+    function updatedReview(editedReview) {
+
+
+        const newReviews = car.reviews.map((review) => {
+            if(review.id === editedReview.id) {
+                return editedReview
+            } else {
+                return review
+            }
+        }) 
+
+        car.reviews = newReviews
+
+       const newCarArray = cars.map((oldCar) => {
+        if(oldCar.id === car.id) {
+            return car
+        } else {
+           return oldCar
+        }
+       })
+
+       setCars(newCarArray) 
+
     }
 
 
     function addNewReview(newReview) {
         setCars(cars => {
+
             const carIndex = cars.findIndex((car) => {
                 return car.id === carId
             })
+
+            debugger
 
             cars[carIndex].reviews = [...cars[carIndex].reviews, newReview]
             
@@ -79,12 +110,6 @@ function ReviewPage() {
 
         })
         setShowReviewForm(false)
-    }
-
-    function handleEditSubmit(e, review) {
-        e.preventDefault()
-        debugger
-        fetch(`/reviews/${}`)
     }
 
     const imageDisplay = {
@@ -103,7 +128,7 @@ function ReviewPage() {
                  <form onSubmit={handleNewReviewSubmit}>
                     <label>Body:</label>
                     <br/>
-                    <input onChange={(e) => setBody(e.target.value)} value={body}/>
+                    <input onChange={(e) => setBody(e.target.value)} value={body} placeholder="Only honest opinions!"/>
                     <button type="submit">Submit Review!</button>
                 </form>
                 <button onClick={() => setShowReviewForm(false)}>Cancel</button> 
@@ -122,21 +147,7 @@ function ReviewPage() {
 
                 return (
                    <div>
-                        {showEditForm ? (
-                            <form onSubmit={() => handleEditSubmit(e, review)}>
-                                <p>{review.username}</p>
-                                <p><input onChange={(e) => setBody(e.target.value)} value={body} placeholder={review.body}/></p>
-                                <button type="submit">Submit Edit</button>
-                            </form>
-                        )
-                        :
-                            <div>
-                                <p>{review.username}</p>
-                                <p>{review.body}</p>
-                                <button onClick={() => setShowEditForm(true)}>Edit</button>
-                                <button>Delete</button>
-                            </div>
-                        }
+                    <Review review={review} updatedReview={updatedReview}/>
                    </div> 
                 )
             })} 
@@ -144,4 +155,4 @@ function ReviewPage() {
     )
 }
 
-export default ReviewPage
+export default ReviewsList

@@ -4,7 +4,7 @@ class CarsController < ApplicationController
 
     def create
         new_car = Car.create!(car_params)
-        render json: new_car, status: :ok
+        render json: new_car, include: [:reviews], status: :ok
     end
 
     def index
@@ -20,7 +20,7 @@ class CarsController < ApplicationController
     private
 
     def car_params
-        params.permit(:year, :make, :model, :image)
+        params.permit(:year, :make, :model, :image, :reviews)
     end
 
 end

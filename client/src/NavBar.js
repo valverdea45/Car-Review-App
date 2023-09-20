@@ -19,13 +19,13 @@ function NavBar() {
                 Profile
             </NavLink>
             <br/>
-            <NavLink exact to="/Reviews">
+            <NavLink exact to="/CarList">
                 Reviews
             </NavLink>
             </div>
             ) : 
            <div>
-            <NavLink exact to="/Reviews">
+            <NavLink exact to="/CarList">
                 Reviews
             </NavLink>
             <br/>

@@ -4,7 +4,7 @@ import { CarContext } from "./context/car"
 import { UserContext } from "./context/user"
 import Car from "./Car"
 
-function Reviews() {
+function CarList() {
 
     const [ year, setYear ] = useState("")
     const [ make, setMake ] = useState("")
@@ -84,7 +84,9 @@ function Reviews() {
                         <p>try <Link to="/AddCar">adding a car!</Link></p>
                     </div>
                 ) :
-                <Car carsToDisplay={carsToDisplay}/>
+                carsToDisplay.map((car) => {
+                   return <Car car={car}/>
+                })
                 }
                 
             </div>
@@ -93,21 +95,4 @@ function Reviews() {
     )
 }
 
-
-
-
-
-// 0
-// : 
-// {id: 1, year: 2015, make: 'toyota', model: 'corolla', image: null, …}
-// 1
-// : 
-// {id: 2, year: 2020, make: 'honda', model: 'civic', image: null, …}
-// length
-// : 
-// 2
-// [[Prototype]]
-// : 
-// Array(0)
-
-export default Reviews
+export default CarList
