@@ -102,14 +102,31 @@ function ReviewsList() {
                 return car.id === carId
             })
 
-            debugger
-
             cars[carIndex].reviews = [...cars[carIndex].reviews, newReview]
             
             return [...cars]
 
         })
         setShowReviewForm(false)
+    }
+
+    function deleteReview(toBeDeletedReview) {
+
+        const newReviews = car.reviews.filter((review) => {
+            return review.id !== toBeDeletedReview.id
+        })
+
+        car.reviews = newReviews
+
+        const newCarArray = cars.map((oldCar) => {
+            if(oldCar.id === car.id) {
+                return car
+            } else {
+                return oldCar
+            }
+        }) 
+
+        setCars(newCarArray) 
     }
 
     const imageDisplay = {
@@ -147,7 +164,7 @@ function ReviewsList() {
 
                 return (
                    <div>
-                    <Review review={review} updatedReview={updatedReview}/>
+                    <Review review={review} updatedReview={updatedReview} deleteReview={deleteReview}/>
                    </div> 
                 )
             })} 

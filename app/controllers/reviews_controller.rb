@@ -1,5 +1,5 @@
 class ReviewsController < ApplicationController
-
+rescue_from ActiveRecord::RecordNotFound, with: :review_not_found_response
 
     def create
         review = @user.reviews.create!(review_params)
@@ -8,12 +8,14 @@ class ReviewsController < ApplicationController
 
     def update
         review = find_reviews
-        if review
-            review.update(review_params)
-            render json: review, status: :ok
-        else
-            render json: { error: "Review Not Found" }, status: :not_found
-        end
+        review.update(review_params)
+        render json: review, status: :accepted
+    end
+
+    def destroy
+        review = find_reviews
+        review.destroy
+        render json: review, status: :ok
     end
 
 
@@ -24,7 +26,11 @@ class ReviewsController < ApplicationController
     end
 
     def find_reviews
-        @user.reviews.find_by(id: params[:id])
+        @user.reviews.find_by!(id: params[:id])
+    end
+
+    def review_not_found_response
+        render json: { error: "Not Found" }, status: :not_found
     end
 
 end
