@@ -1,12 +1,26 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { UserContext } from "./context/user"
 import { useNavigate } from "react-router-dom"
+import { CarContext } from "./context/car"
 
 function Profile() {
 
   const { user, setUser } = useContext(UserContext)
+  const { cars } = useContext(CarContext)
+  const [ userCars, setUserCars ] = useState([])
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    fetch("/users")
+    .then((data) => data.json())
+    .then((allCars) => setUserCars(allCars))
+  }, [])
+
+
+  if((user === null && userCars.length === 0) || (user === null) || (userCars.length === 0)) {
+    return <p>loading...</p>
+  }
 
 
   function onLogout() {
@@ -19,7 +33,6 @@ function Profile() {
       body: JSON.stringify()
     })
 
-    console.log(user)
     setUser(null)
     navigate("/")
   }
@@ -35,18 +48,30 @@ function Profile() {
     return (
         <div>
             <h3> Profile Page! </h3>
-            {user?.bio ? 
+            <br/>
+            <p>Userame: {user.username}</p>
+            {user.bio ? 
             <div>
                 <p>{user.bio}</p>
                 <button onClick={handleClick}>Edit</button>
             </div>
             : 
             <div>
-                <p>Add a bio!</p>
-                <button onClick={onAddBio}>+</button>
+                <button onClick={onAddBio}>Add Bio</button>
             </div>
-            
             }
+            <p>Email: {user.email}</p>
+            <br/>
+            <label>Cars that you added</label>
+            <ul>
+            {userCars.map((car) => {
+              return (
+                
+                <li>{car.year} {car.make} {car.model}</li>
+      
+              )
+            })}
+            </ul>
             <button onClick={onLogout} >Logout</button>
         </div>
     )

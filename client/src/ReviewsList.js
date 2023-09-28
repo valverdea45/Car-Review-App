@@ -34,7 +34,7 @@ function ReviewsList() {
 
         let usernameToSend = ""
 
-        if(user === null) {
+        if (user === null) {
             usernameToSend = "Not Specified"
         } else {
             usernameToSend = user.username
@@ -164,7 +164,7 @@ function ReviewsList() {
 
                 return (
                    <div>
-                    <Review review={review} updatedReview={updatedReview} deleteReview={deleteReview}/>
+                    <Review key={review.id} review={review} updatedReview={updatedReview} deleteReview={deleteReview}/>
                    </div> 
                 )
             })} 

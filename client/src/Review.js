@@ -55,13 +55,14 @@ function Review({ review, updatedReview, deleteReview }) {
                         <div>
                             <p>{review.username}</p>
                             <p>{review.body}</p>
-                            {user.id === review.user_id? (
-                            <div>
+                            { user === null ? (
+                                null
+                            ) : user.id === review.user_id ? (
+                                <div>
                                 <button onClick={() => setShowEditForm(true)}>Edit</button>
-                                <button onClick={handleDeleteClick}>Delete</button>
-                            </div>
+                                <button onClick={handleDeleteClick}>Delete</button>  
+                                </div>
                             ) : null}
-                            
                         </div>
                     } 
         </div>

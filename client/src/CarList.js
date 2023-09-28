@@ -85,7 +85,7 @@ function CarList() {
                     </div>
                 ) :
                 carsToDisplay.map((car) => {
-                   return <Car car={car}/>
+                   return <Car key={car.id} car={car}/>
                 })
                 }
                 
