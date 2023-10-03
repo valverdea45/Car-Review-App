@@ -1,24 +1,16 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext } from "react"
 import { UserContext } from "./context/user"
 import { useNavigate } from "react-router-dom"
-import { CarContext } from "./context/car"
 
 function Profile() {
 
   const { user, setUser } = useContext(UserContext)
-  const { cars } = useContext(CarContext)
-  const [ userCars, setUserCars ] = useState([])
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    fetch("/users")
-    .then((data) => data.json())
-    .then((allCars) => setUserCars(allCars))
-  }, [])
 
 
-  if((user === null && userCars.length === 0) || (user === null) || (userCars.length === 0)) {
+  if(user === null || user.cars_reviewed === undefined ) {
     return <p>loading...</p>
   }
 
@@ -62,13 +54,11 @@ function Profile() {
             }
             <p>Email: {user.email}</p>
             <br/>
-            <label>Cars that you added</label>
+            <label>Cars that you reviewed</label>
             <ul>
-            {userCars.map((car) => {
+            {user.cars_reviewed.map((car) => {
               return (
-                
-                <li>{car.year} {car.make} {car.model}</li>
-      
+                <li>{car}</li>
               )
             })}
             </ul>

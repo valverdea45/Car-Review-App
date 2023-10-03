@@ -12,8 +12,9 @@ function ReviewsList() {
     const location = useLocation()
     const carId = location.state
     const { cars, setCars } = useContext(CarContext)
-    const { user } = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
     const [ errors, setErrors ] = useState(false)
+
 
 
     const car = cars?.find((individualCar) => {
@@ -59,12 +60,21 @@ function ReviewsList() {
         
             if(res.ok){
                 res.json().then((newReview) => {
+                    // adding review to review list
                     addNewReview(newReview)
+                    // adding car to list of cars reviewed
+                    setUser((user) => {
+
+                        user.cars_reviewed = [...user.cars_reviewed, `${car.year} ${car.make} ${car.model}`]
+
+                        return user
+                    })
                 })
             } else {
                 setErrors(true)
             }
         })
+
         setBody("")
 
     }
