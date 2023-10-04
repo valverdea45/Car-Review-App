@@ -62,13 +62,6 @@ function ReviewsList() {
                 res.json().then((newReview) => {
                     // adding review to review list
                     addNewReview(newReview)
-                    // adding car to list of cars reviewed
-                    setUser((user) => {
-
-                        user.cars_reviewed = [...user.cars_reviewed, `${car.year} ${car.make} ${car.model}`]
-
-                        return user
-                    })
                 })
             } else {
                 setErrors(true)
@@ -118,6 +111,12 @@ function ReviewsList() {
 
         })
         setShowReviewForm(false)
+        setUser((user) => {
+
+            user.cars_reviewed = [...user.cars_reviewed, `${car.year} ${car.make} ${car.model}`]
+
+            return user
+        })
     }
 
     function deleteReview(toBeDeletedReview) {
@@ -137,6 +136,19 @@ function ReviewsList() {
         }) 
 
         setCars(newCarArray) 
+        setUser((user) => {
+
+            const removedReview = user.cars_reviewed.filter((individualCar) => {
+                
+                let carToBeDeleted = `${car.year} ${car.make} ${car.model}`
+
+                return individualCar.toLowerCase() !== carToBeDeleted.toLowerCase()
+            })
+
+            user.cars_reviewed = removedReview
+
+            return user
+        })
     }
 
     const imageDisplay = {

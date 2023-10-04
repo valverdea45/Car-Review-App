@@ -7,13 +7,13 @@ rescue_from ActiveRecord::RecordNotFound, with: :review_not_found_response
     end 
 
     def update
-        review = find_reviews
+        review = find_review
         review.update(review_params)
         render json: review, status: :accepted
     end
 
     def destroy
-        review = find_reviews
+        review = find_review
         review.destroy
         render json: review, status: :ok
     end
@@ -25,7 +25,7 @@ rescue_from ActiveRecord::RecordNotFound, with: :review_not_found_response
         params.permit(:body, :car_id, :username)
     end
 
-    def find_reviews
+    def find_review
         @user.reviews.find_by!(id: params[:id])
     end
 
