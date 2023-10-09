@@ -22,7 +22,7 @@ function ReviewsList() {
     })
 
 
-    if (car === undefined) {
+    if (car === undefined || user === null) {
         return (
             <p>Loading....</p>
         )
@@ -31,8 +31,6 @@ function ReviewsList() {
     function handleNewReviewSubmit(e) {
         e.preventDefault()
 
-        
-
         let usernameToSend = ""
 
         if (user === null) {
@@ -40,8 +38,6 @@ function ReviewsList() {
         } else {
             usernameToSend = user.username
         }
-
-
 
         const objToBeSent = {
             car_id: car.id,
@@ -115,9 +111,26 @@ function ReviewsList() {
 
             user.cars_reviewed = [...user.cars_reviewed, `${car.year} ${car.make} ${car.model}`]
 
-            return user
+            const reviewToBeAdded = car.reviews.find((review) => {
+                return review.username === user.username
+            })
+
+            user.reviews = [...user.reviews, reviewToBeAdded ]
+
+            debugger
+
+            return {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                bio: user.bio,
+                cars_reviewed: user.cars_reviewed,
+                reviews: user.reviews
+            }
         })
     }
+
+    debugger 
 
     function deleteReview(toBeDeletedReview) {
 
@@ -147,6 +160,8 @@ function ReviewsList() {
 
             user.cars_reviewed = removedReview
 
+
+
             return user
         })
     }
@@ -155,6 +170,7 @@ function ReviewsList() {
         height: "15rem",
         width: "22rem"
     }
+
 
     return (
         <div>
@@ -180,7 +196,15 @@ function ReviewsList() {
                 </div>) 
             : 
             <div>
+                {
+                user.reviews.map((review) => {
+                    debugger
+                  return review.car_id  
+                }).includes(carId) ? 
+                ( null ) 
+                : 
                 <button onClick={() => setShowReviewForm(true)}>Add a Review!</button>
+                }
             </div>}
             {car.reviews?.map((review) => {
 

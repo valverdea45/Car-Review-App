@@ -36,7 +36,8 @@ function Review({ review, updatedReview, deleteReview }) {
         .then((toBeDeletedReview) => deleteReview(toBeDeletedReview))
     } 
 
-    
+    console.log("user.id === review.user_id:", user.id === review.user_id)
+    debugger
 
     return (
         <div>
