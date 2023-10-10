@@ -37,7 +37,6 @@ function Review({ review, updatedReview, deleteReview }) {
     } 
 
     console.log("user.id === review.user_id:", user.id === review.user_id)
-    debugger
 
     return (
         <div>

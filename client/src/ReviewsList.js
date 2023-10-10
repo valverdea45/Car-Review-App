@@ -7,13 +7,13 @@ import Review from "./Review"
 function ReviewsList() {
 
 
-    const [ showReviewForm, setShowReviewForm ] = useState(false)
-    const [ body, setBody ] = useState("")
+    const [showReviewForm, setShowReviewForm] = useState(false)
+    const [body, setBody] = useState("")
     const location = useLocation()
     const carId = location.state
     const { cars, setCars } = useContext(CarContext)
     const { user, setUser } = useContext(UserContext)
-    const [ errors, setErrors ] = useState(false)
+    const [errors, setErrors] = useState(false)
 
 
 
@@ -45,24 +45,24 @@ function ReviewsList() {
             username: usernameToSend
         }
 
-        fetch("/reviews" , {
+        fetch("/reviews", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(objToBeSent)
         })
-        .then((res) =>{
-        
-            if(res.ok){
-                res.json().then((newReview) => {
-                    // adding review to review list
-                    addNewReview(newReview)
-                })
-            } else {
-                setErrors(true)
-            }
-        })
+            .then((res) => {
+
+                if (res.ok) {
+                    res.json().then((newReview) => {
+                        // adding review to review list
+                        addNewReview(newReview)
+                    })
+                } else {
+                    setErrors(true)
+                }
+            })
 
         setBody("")
 
@@ -72,29 +72,30 @@ function ReviewsList() {
 
 
         const newReviews = car.reviews.map((review) => {
-            if(review.id === editedReview.id) {
+            if (review.id === editedReview.id) {
                 return editedReview
             } else {
                 return review
             }
-        }) 
+        })
 
         car.reviews = newReviews
 
-       const newCarArray = cars.map((oldCar) => {
-        if(oldCar.id === car.id) {
-            return car
-        } else {
-           return oldCar
-        }
-       })
+        const newCarArray = cars.map((oldCar) => {
+            if (oldCar.id === car.id) {
+                return car
+            } else {
+                return oldCar
+            }
+        })
 
-       setCars(newCarArray) 
+        setCars(newCarArray)
 
     }
 
 
     function addNewReview(newReview) {
+
         setCars(cars => {
 
             const carIndex = cars.findIndex((car) => {
@@ -102,7 +103,7 @@ function ReviewsList() {
             })
 
             cars[carIndex].reviews = [...cars[carIndex].reviews, newReview]
-            
+
             return [...cars]
 
         })
@@ -115,9 +116,7 @@ function ReviewsList() {
                 return review.username === user.username
             })
 
-            user.reviews = [...user.reviews, reviewToBeAdded ]
-
-            debugger
+            user.reviews = [...user.reviews, reviewToBeAdded]
 
             return {
                 id: user.id,
@@ -130,8 +129,6 @@ function ReviewsList() {
         })
     }
 
-    debugger 
-
     function deleteReview(toBeDeletedReview) {
 
         const newReviews = car.reviews.filter((review) => {
@@ -141,28 +138,39 @@ function ReviewsList() {
         car.reviews = newReviews
 
         const newCarArray = cars.map((oldCar) => {
-            if(oldCar.id === car.id) {
+            if (oldCar.id === car.id) {
                 return car
             } else {
                 return oldCar
             }
-        }) 
+        })
 
-        setCars(newCarArray) 
+        setCars(newCarArray)
         setUser((user) => {
 
-            const removedReview = user.cars_reviewed.filter((individualCar) => {
-                
+            const newRemovedReviewedCarsArray = user.cars_reviewed.filter((individualCar) => {
+
                 let carToBeDeleted = `${car.year} ${car.make} ${car.model}`
 
                 return individualCar.toLowerCase() !== carToBeDeleted.toLowerCase()
             })
 
-            user.cars_reviewed = removedReview
+            user.cars_reviewed = newRemovedReviewedCarsArray
 
+            const newRemovedReviewArray = user.reviews.filter((review) => {
+               return review.id !== toBeDeletedReview.id
+            })
 
+            user.reviews = newRemovedReviewArray
 
-            return user
+            return {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                bio: user.bio,
+                cars_reviewed: user.cars_reviewed,
+                reviews: user.reviews
+            }
         })
     }
 
@@ -176,44 +184,41 @@ function ReviewsList() {
         <div>
             <p>Welcome to the review page!</p>
             <p>{car.year} {car.make} {car.model}</p>
-            <img src={car.image} alt={car.make} style={imageDisplay}/>
-            <br/>
+            <img src={car.image} alt={car.make} style={imageDisplay} />
+            <br />
             {showReviewForm ? (
                 <div>
-                 <form onSubmit={handleNewReviewSubmit}>
-                    <label>Body:</label>
-                    <br/>
-                    <input onChange={(e) => setBody(e.target.value)} value={body} placeholder="Only honest opinions!"/>
-                    <button type="submit">Submit Review!</button>
-                </form>
-                <button onClick={() => setShowReviewForm(false)}>Cancel</button> 
-                {errors ? (
-                    <p>You must be logged in to submit a review</p>
-                ) 
+                    <form onSubmit={handleNewReviewSubmit}>
+                        <label>Body:</label>
+                        <br />
+                        <input onChange={(e) => setBody(e.target.value)} value={body} placeholder="Only honest opinions!" />
+                        <button type="submit">Submit Review!</button>
+                    </form>
+                    <button onClick={() => setShowReviewForm(false)}>Cancel</button>
+                    {errors ? (
+                        <p>You must be logged in to submit a review</p>
+                    )
+                        :
+                        null
+                    }
+                </div>)
                 :
-                null
-                }
-                </div>) 
-            : 
-            <div>
-                {
-                user.reviews.map((review) => {
-                    debugger
-                  return review.car_id  
-                }).includes(carId) ? 
-                ( null ) 
-                : 
-                <button onClick={() => setShowReviewForm(true)}>Add a Review!</button>
-                }
-            </div>}
+                <div>
+                    {
+                        user.reviews.map((review) => review.car_id).includes(carId) ?
+                            (null)
+                            :
+                            <button onClick={() => setShowReviewForm(true)}>Add a Review!</button>
+                    }
+                </div>}
             {car.reviews?.map((review) => {
-
+                debugger
                 return (
-                   <div>
-                    <Review key={review.id} review={review} updatedReview={updatedReview} deleteReview={deleteReview}/>
-                   </div> 
+                    <div>
+                        <Review key={review.id} review={review} updatedReview={updatedReview} deleteReview={deleteReview} />
+                    </div>
                 )
-            })} 
+            })}
         </div>
     )
 }
