@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useContext } from "react";
 import { CarContext } from "./context/car";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./context/user";
 
 
 function AddCar() {
@@ -13,6 +14,7 @@ function AddCar() {
     const [ image, setImage ] = useState("")
     const [ errors, setErrors ] = useState(null)
     const { cars, setCars } = useContext(CarContext)
+    const { user } = useContext(UserContext)
     const navigate = useNavigate()
 
 
@@ -25,7 +27,8 @@ function AddCar() {
             year: yearInInteger,
             make: make,
             model: model,
-            image: image
+            image: image,
+            created_by: user.username
         }
 
         fetch("/cars", {

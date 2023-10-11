@@ -1,6 +1,7 @@
 class ReviewsController < ApplicationController
 rescue_from ActiveRecord::RecordNotFound, with: :review_not_found_response
 
+
     def create
         review = @user.reviews.create!(review_params)
         render json: review, status: :created
@@ -22,7 +23,7 @@ rescue_from ActiveRecord::RecordNotFound, with: :review_not_found_response
     private
 
     def review_params
-        params.permit(:body, :car_id, :username)
+        params.permit(:body, :car_id)
     end
 
     def find_review

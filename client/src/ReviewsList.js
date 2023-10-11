@@ -22,7 +22,7 @@ function ReviewsList() {
     })
 
 
-    if (car === undefined || user === null) {
+    if (car === undefined) {
         return (
             <p>Loading....</p>
         )
@@ -31,19 +31,13 @@ function ReviewsList() {
     function handleNewReviewSubmit(e) {
         e.preventDefault()
 
-        let usernameToSend = ""
-
-        if (user === null) {
-            usernameToSend = "Not Specified"
-        } else {
-            usernameToSend = user.username
-        }
-
         const objToBeSent = {
             car_id: car.id,
-            body: body,
-            username: usernameToSend
+            body: body
         }
+
+        // check if user.id === 
+        // if user is logged in send fetch if not dont
 
         fetch("/reviews", {
             method: "POST",
@@ -113,7 +107,7 @@ function ReviewsList() {
             user.cars_reviewed = [...user.cars_reviewed, `${car.year} ${car.make} ${car.model}`]
 
             const reviewToBeAdded = car.reviews.find((review) => {
-                return review.username === user.username
+                return review.user_id === user.id
             })
 
             user.reviews = [...user.reviews, reviewToBeAdded]
@@ -212,7 +206,6 @@ function ReviewsList() {
                     }
                 </div>}
             {car.reviews?.map((review) => {
-                debugger
                 return (
                     <div>
                         <Review key={review.id} review={review} updatedReview={updatedReview} deleteReview={deleteReview} />

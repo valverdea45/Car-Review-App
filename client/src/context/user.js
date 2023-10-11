@@ -5,15 +5,16 @@ const UserContext = React.createContext()
 
 function UserProvider({ children }) {
 
-    const [ user, setUser ] = useState(null)
+    const [ user, setUser ] = useState({
+        username: "",
+        reviews: []
+    })
     
     useEffect(() => {
         fetch("/me")
         .then((res) => {
             if(res.ok) {
                 res.json().then((data) => setUser(data))
-            } else {
-                setUser(null)
             }
         })
     }, [])

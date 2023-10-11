@@ -9,7 +9,7 @@ function NavBar() {
 
     return (
         <div>
-            { user ? (
+            { user.id ? (
             <div>
             <NavLink exact to="/AddCar">
                 Add Car

@@ -25,7 +25,7 @@ function Profile() {
       body: JSON.stringify()
     })
 
-    setUser(null)
+    setUser({ username: "", reviews: []})
     navigate("/")
   }
 

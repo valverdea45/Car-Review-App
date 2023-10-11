@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2023_09_09_183405) do
     t.string "make"
     t.string "model"
     t.string "image"
+    t.string "created_by"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -25,7 +26,6 @@ ActiveRecord::Schema.define(version: 2023_09_09_183405) do
     t.integer "user_id"
     t.integer "car_id"
     t.string "body"
-    t.string "username"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

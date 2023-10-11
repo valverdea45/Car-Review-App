@@ -7,6 +7,8 @@ function Review({ review, updatedReview, deleteReview }) {
     const [ body, setBody ] = useState(review.body)
     const { user } = useContext(UserContext)
 
+    debugger
+
     function handleEditSubmit(e) {
         e.preventDefault()
 
@@ -43,7 +45,7 @@ function Review({ review, updatedReview, deleteReview }) {
         {showEditForm ? (
                     <div>
                         <form onSubmit={handleEditSubmit}>
-                            <p>{review.username}</p>
+                            <p>{user.username}</p>
                             <input onChange={(e) => setBody(e.target.value)} value={body}/>
                             <button type="submit">Submit Edit</button>
                             <br/>
