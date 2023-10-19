@@ -1,19 +1,21 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { UserContext } from "./context/user"
 import { useNavigate } from "react-router-dom"
+import Bio from "./Bio"
 
 function Profile() {
 
   const { user, setUser } = useContext(UserContext)
-
+  const [errors, setErrors] = useState([])
   const navigate = useNavigate()
 
 
+  if(user.username.length === 0 || user.cars_reviewed === undefined ) {
+      return <p>loading...</p>
+    }
 
-  if(user === null || user.cars_reviewed === undefined ) {
-    return <p>loading...</p>
-  }
-
+  
+    
 
   function onLogout() {
 
@@ -29,12 +31,28 @@ function Profile() {
     navigate("/")
   }
 
-    function handleClick() {
-        console.log("I was clicked!!")
-    }
+    function onBioChange(bio) {
 
-    function onAddBio() {
-        console.log("I was clicked to add bio!")
+        const objToBeSent = {
+          bio: bio
+        }
+
+        fetch(`/users/${user.id}`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(objToBeSent)
+        })
+        .then((res) => {
+          if (res.ok) {
+            res.json().then((updatedUser) => setUser(updatedUser))
+          } else {
+            res.json().then((res) => {
+              setErrors(res.errors)
+            })
+          }
+        })
     }
 
     return (
@@ -42,16 +60,7 @@ function Profile() {
             <h3> Profile Page! </h3>
             <br/>
             <p>Userame: {user.username}</p>
-            {user.bio ? 
-            <div>
-                <p>{user.bio}</p>
-                <button onClick={handleClick}>Edit</button>
-            </div>
-            : 
-            <div>
-                <button onClick={onAddBio}>Add Bio</button>
-            </div>
-            }
+            <Bio user={user} onBioChange={onBioChange} errors={errors}/>
             <p>Email: {user.email}</p>
             <br/>
             <label>Cars that you reviewed</label>

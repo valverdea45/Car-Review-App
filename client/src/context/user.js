@@ -19,7 +19,16 @@ function UserProvider({ children }) {
         })
     }, [])
 
-    return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
+    return  <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
+
+    // if (user.username.length > 0 ) {
+    //     return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>
+    // } else {
+    //     return null
+    // }
+
+    
+    
 }
 
 export { UserContext, UserProvider }

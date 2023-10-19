@@ -13,7 +13,7 @@ function ReviewsList() {
     const carId = location.state
     const { cars, setCars } = useContext(CarContext)
     const { user, setUser } = useContext(UserContext)
-    const [errors, setErrors] = useState(false)
+    const [errors, setErrors] = useState([])
 
 
 
@@ -35,11 +35,9 @@ function ReviewsList() {
             car_id: car.id,
             body: body
         }
-
-        // check if user.id === 
-        // if user is logged in send fetch if not dont
-
-        fetch("/reviews", {
+        
+        if(user.id) {
+           fetch("/reviews", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -54,9 +52,15 @@ function ReviewsList() {
                         addNewReview(newReview)
                     })
                 } else {
-                    setErrors(true)
+                    res.json().then((res) => {
+                        setErrors(res.errors)
+                    })
                 }
-            })
+            }) 
+        } else {
+            setErrors(["You must be logged in before making any reviews"])
+        }
+        
 
         setBody("")
 
@@ -173,7 +177,6 @@ function ReviewsList() {
         width: "22rem"
     }
 
-
     return (
         <div>
             <p>Welcome to the review page!</p>
@@ -189,11 +192,14 @@ function ReviewsList() {
                         <button type="submit">Submit Review!</button>
                     </form>
                     <button onClick={() => setShowReviewForm(false)}>Cancel</button>
-                    {errors ? (
-                        <p>You must be logged in to submit a review</p>
+                    {errors.length > 0 ? (
+                        errors.map((error) => {
+                            return (
+                                <p>{error}</p>
+                            )
+                        })
                     )
-                        :
-                        null
+                        : null
                     }
                 </div>)
                 :
@@ -206,6 +212,7 @@ function ReviewsList() {
                     }
                 </div>}
             {car.reviews?.map((review) => {
+                debugger
                 return (
                     <div>
                         <Review key={review.id} review={review} updatedReview={updatedReview} deleteReview={deleteReview} />

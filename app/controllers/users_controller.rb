@@ -12,6 +12,13 @@ class UsersController < ApplicationController
         render json: @user, status: :ok
     end
 
+    def update
+        @user.update!(
+            bio: params[:bio]
+        )
+        render json: @user, status: :ok
+    end
+
     private
 
     def user_params

@@ -7,7 +7,8 @@ Rails.application.routes.draw do
 
   resources :cars, only: [:index, :create, :show]
 
-
+  resources :users, only: [:update]
+  
   get "/me", to: "users#show"
 
   post "/signup", to: "users#create"

@@ -5,9 +5,10 @@ function Review({ review, updatedReview, deleteReview }) {
 
     const [ showEditForm, setShowEditForm ] = useState(false)
     const [ body, setBody ] = useState(review.body)
+    const [ editErrors, setEditErrors ] = useState([])
     const { user } = useContext(UserContext)
 
-    debugger
+    
 
     function handleEditSubmit(e) {
         e.preventDefault()
@@ -23,11 +24,19 @@ function Review({ review, updatedReview, deleteReview }) {
             },
             body: JSON.stringify(objToBeSent)
         })
-        .then((res) => res.json())
-        .then((editedReview) => {
-            setShowEditForm(false)
-            updatedReview(editedReview)
-        }) 
+        .then((res) => {
+            if (res.ok) {
+                res.json().then((editedReview) => {
+                    setShowEditForm(false)
+                    updatedReview(editedReview)
+                    setEditErrors([])
+                })
+            } else {
+                res.json().then((res) => {
+                    setEditErrors(res.errors)
+                })
+            }
+        })
     }
 
     function handleDeleteClick() {
@@ -37,8 +46,6 @@ function Review({ review, updatedReview, deleteReview }) {
         .then((res) => res.json())
         .then((toBeDeletedReview) => deleteReview(toBeDeletedReview))
     } 
-
-    console.log("user.id === review.user_id:", user.id === review.user_id)
 
     return (
         <div>
@@ -51,6 +58,15 @@ function Review({ review, updatedReview, deleteReview }) {
                             <br/>
                             <button onClick={() => setShowEditForm(false)}>Cancel</button>
                         </form>
+                        {editErrors.length > 0 ? (
+                            editErrors.map((error) => {
+                                return (
+                                    <p>{error}</p>
+                                )
+                            })
+                        )
+                        : null
+                        }
                     </div>
                     )
                     :
