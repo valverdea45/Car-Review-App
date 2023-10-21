@@ -153,21 +153,17 @@ function ReviewsList() {
                 return individualCar.toLowerCase() !== carToBeDeleted.toLowerCase()
             })
 
-            user.cars_reviewed = newRemovedReviewedCarsArray
-
             const newRemovedReviewArray = user.reviews.filter((review) => {
                return review.id !== toBeDeletedReview.id
             })
-
-            user.reviews = newRemovedReviewArray
 
             return {
                 id: user.id,
                 username: user.username,
                 email: user.email,
                 bio: user.bio,
-                cars_reviewed: user.cars_reviewed,
-                reviews: user.reviews
+                cars_reviewed: newRemovedReviewedCarsArray,
+                reviews: newRemovedReviewArray
             }
         })
     }
