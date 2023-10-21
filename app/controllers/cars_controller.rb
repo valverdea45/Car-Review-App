@@ -4,17 +4,17 @@ class CarsController < ApplicationController
 
     def create
         new_car = Car.create!(car_params)
-        render json: new_car, include: [:reviews], status: :ok
+        render json: new_car, status: :ok
     end
 
     def index
         cars = Car.all
-        render json: cars, include: [:reviews], status: :ok
+        render json: cars, status: :ok
     end
 
     def show
         car = Car.find_by( car_params )
-        render json: car, include: [:reviews], status: :ok
+        render json: car, status: :ok
     end
 
     private
