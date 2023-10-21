@@ -61,7 +61,7 @@ function Review({ review, updatedReview, deleteReview }) {
                         {editErrors.length > 0 ? (
                             editErrors.map((error) => {
                                 return (
-                                    <p>{error}</p>
+                                    <p key={error}>{error}</p>
                                 )
                             })
                         )

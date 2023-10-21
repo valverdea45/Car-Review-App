@@ -195,7 +195,7 @@ function ReviewsList() {
                     {errors.length > 0 ? (
                         errors.map((error) => {
                             return (
-                                <p>{error}</p>
+                                <p key={error}>{error}</p>
                             )
                         })
                     )
@@ -212,7 +212,6 @@ function ReviewsList() {
                     }
                 </div>}
             {car.reviews?.map((review) => {
-                debugger
                 return (
                     <div>
                         <Review key={review.id} review={review} updatedReview={updatedReview} deleteReview={deleteReview} />

@@ -10,12 +10,12 @@ function Profile() {
   const navigate = useNavigate()
 
 
-  if(user.username.length === 0 || user.cars_reviewed === undefined ) {
-      return <p>loading...</p>
-    }
+  if (user.username.length === 0 || user.cars_reviewed === undefined) {
+    return <p>loading...</p>
+  }
 
-  
-    
+
+
 
   function onLogout() {
 
@@ -27,55 +27,59 @@ function Profile() {
       body: JSON.stringify()
     })
 
-    setUser({ username: "", reviews: []})
+    setUser({ username: "", reviews: [] })
     navigate("/")
   }
 
-    function onBioChange(bio) {
+  function onBioChange(bio) {
 
-        const objToBeSent = {
-          bio: bio
-        }
-
-        fetch(`/users/${user.id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(objToBeSent)
-        })
-        .then((res) => {
-          if (res.ok) {
-            res.json().then((updatedUser) => setUser(updatedUser))
-          } else {
-            res.json().then((res) => {
-              setErrors(res.errors)
-            })
-          }
-        })
+    const objToBeSent = {
+      bio: bio
     }
 
-    return (
+    fetch(`/users/${user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(objToBeSent)
+    })
+      .then((res) => {
+        if (res.ok) {
+          res.json().then((updatedUser) => setUser(updatedUser))
+        } else {
+          res.json().then((res) => {
+            setErrors(res.errors)
+          })
+        }
+      })
+  }
+
+  return (
+    <div>
+      <h3> Profile Page! </h3>
+      <br />
+      <p>Userame: {user.username}</p>
+      <Bio user={user} onBioChange={onBioChange} errors={errors} />
+      <p>Email: {user.email}</p>
+      {user.cars_reviewed.length > 0 ? (
         <div>
-            <h3> Profile Page! </h3>
-            <br/>
-            <p>Userame: {user.username}</p>
-            <Bio user={user} onBioChange={onBioChange} errors={errors}/>
-            <p>Email: {user.email}</p>
-            <br/>
-            <label>Cars that you reviewed</label>
-            <ul>
+          <label>Cars that you reviewed</label>
+          <ul>
             {user.cars_reviewed.map((car) => {
               return (
-                <li>{car}</li>
+                <li key={car}>{car}</li>
               )
             })}
-            </ul>
-            <button onClick={onLogout} >Logout</button>
+          </ul>
         </div>
-    )
+      ) 
+      : <p>Try leaving a review!</p>}
+
+      <button onClick={onLogout} >Logout</button>
+    </div>
+  )
 }
 
-// {id: 3, username: 'Valverdea45', email: null, bio: null}
 
 export default Profile

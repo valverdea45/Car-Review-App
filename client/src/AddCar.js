@@ -57,6 +57,7 @@ function AddCar() {
 
     }
 
+    
 
     return (
         <div>
@@ -80,7 +81,16 @@ function AddCar() {
                 <input onChange={(e) => setImage(e.target.value)} value={image} type="text"/>
                 <br/>
                 <button type="submit">Add Car</button>
-                {errors ? (<p>{`${errors}`}</p>) : null}
+                {errors ? (
+                    <div>
+                        {errors.map((error) => {
+                           return (
+                            <p key={error}>{error}</p>
+                           ) 
+                        })} 
+                    </div>
+                    
+                ) : null}
             </form>
         </div>
     )
