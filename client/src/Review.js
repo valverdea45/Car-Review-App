@@ -65,15 +65,14 @@ function Review({ review, updatedReview, deleteReview }) {
                                 )
                             })
                         )
-                        : null
-                        }
+                        : null}
                     </div>
                     )
                     :
                         <div>
                             <p>{review.username}</p>
                             <p>{review.body}</p>
-                            { user === null ? (
+                            { user.username.length === 0 ? (
                                 null
                             ) : user.id === review.user_id ? (
                                 <div>

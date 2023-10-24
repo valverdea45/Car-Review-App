@@ -55,7 +55,7 @@ function LogIn() {
                 <br/>
                 <label>Password</label>
                 <br/>
-                <input onChange={(e) => setPassword(e.target.value)} value={password}/>
+                <input onChange={(e) => setPassword(e.target.value)} value={password} type="text"/>
                 <br/>
                 <button type="submit">Log In</button>
             </form>
@@ -66,12 +66,3 @@ function LogIn() {
 
 export default LogIn;
 
-
-// </form>
-// {isInvalidInput ? (
-//     <p>Oops - don't forget to fill out all fields above</p>
-// ) : null}
-// <p>note: when adding a pokemon it gives it a chance to be found in the wild</p>
-// </div>
-// )
-// }

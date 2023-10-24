@@ -75,7 +75,6 @@ function Profile() {
         </div>
       ) 
       : <p>Try leaving a review!</p>}
-
       <button onClick={onLogout} >Logout</button>
     </div>
   )

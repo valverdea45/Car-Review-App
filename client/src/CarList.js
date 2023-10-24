@@ -14,43 +14,49 @@ function CarList() {
 
     const carsToDisplay = cars.filter((car) => {
 
-
-
-        // what I need from the filter: 
-        // if all input fields are empty show all cars
-        // test length of input fields(make.length > 0) then reverse(!) to true
-        // !make.length > 0 
-        // if ALL input fields are empty
-        // (!make.length > 0) && (!model.length > 0) && (!year.length > 0)
-        // if one input field is filled with full year/make/model or half way filled return the closest match
-        // if two input fields are filled or half way filled return the closest match 
-
-
-        let makeSet = make.length > 0
-        let modelSet = model.length > 0
-        let yearSet = year.length > 0
-
-
+        let makeUserInputLength = make.length > 0
+        let modelUserInputLength = model.length > 0
+        let yearUserInputLength = year.length > 0
 
         let correctMake = car.make.toLowerCase().includes(make.toLowerCase())
         let correctModel = car.model.toLowerCase().includes(model.toLowerCase())
         let correctYear = `${car.year}`.includes(year)
 
         // ! inverts the false statment into a true 
-        // || if one or both statments are true return true
-        // && returns true if both statments are true 
+        // || if one or both values are true return true
+        // && returns true only if both values are true 
+        // () solve for whatever is within parentheses first
 
-        // if make length is 0 its false but the ! makes it true thus making the whole || statement true
-        // (!makeSet || correctMake)
-        // same concept 
-        // (!modelSet || correctModel)
-        // if both || statements come out to be true then the && returns true
-        //                            true
-        // (!makeSet || correctMake) && (!modelSet || correctModel)
-        //                           true                              same concept testing if true
-        // (!makeSet || correctMake) && (!modelSet || correctModel) && (!yearSet || correctYear)
+        // example: user inputs "T" into make input field and nothing into model or year
+        // if user inputs the letter T then !makeUserInputLength will be false
+        // the length of "T" is 1
+        // makeUserInputLength = "T".length > 0
+        // makeUserInputLength = 1 > 0 (returns true)
+        // !makeUserInputLength = 1 > 0 (returns false becuase of !)
+        // (false || correctMake)
+        // correctMake = allCarMakes.includes(userInput)
+        // if the letter T matches any car's make correctMake will return true
+        // T is INCLUDED in Toyota thus correctMake returns true
+        // correctMake = "Toyota".includes("T") (this returns true)
+        // (false || true)
+        // since there is one truthy value within the || (or) statement the whole () becomes true
+        // (true) && (!modelUserInputLength || correctModel) && (!yearUserInputLength || correctYear)
+        // user didnt input anything into model
+        // modelUserInputLength = 0 > 0 (returns false)
+        // !modelUserInputLength = 0 > 0 (returns true)
+        // (true) && (true || correctModel) && (!yearUserInputLength || correctYear)
+        // correctModel = allCarModels.includes(userInput)
+        // correctModel = allCarModels.includes("") (returns false)
+        // since no car models match "" correctModel is false
+        // (true) && (true || false) && (!yearUserInputLength || correctYear)
+        // since there is one truthy value in our || statement this () becomes true
+        // (true) && (true) && (!yearUserInputLength || correctYear)
+        // we apply the same logic to the year input
+        // return (true) && (true) && (true)
+        // now the filter will return any car that has a make that has the letter "T" included and not worry about the year or model
 
-        return (!makeSet || correctMake) && (!modelSet || correctModel) && (!yearSet || correctYear) 
+
+        return (!makeUserInputLength || correctMake) && (!modelUserInputLength || correctModel) && (!yearUserInputLength || correctYear) 
         })
 
 
@@ -72,13 +78,13 @@ function CarList() {
                 <input onChange={(e) => setYear(e.target.value)} value={year} type="text"/>
                 </div>
 
-                {carsToDisplay.length === 0 && user === null ? (
+                {carsToDisplay.length === 0 && user.username.length === 0 ? (
                 <div>
                     <p>Didn't find what your looking for?</p>
                     <p>try <Link to="/LogIn">logging in</Link> and adding the car!</p>
                 </div>) 
                 : 
-                carsToDisplay.length === 0 && typeof user === 'object' ? (
+                carsToDisplay.length === 0 && user.username.length > 0 ? (
                     <div>
                         <p>Didn't find what your looking for?</p>
                         <p>try <Link to="/AddCar">adding a car!</Link></p>

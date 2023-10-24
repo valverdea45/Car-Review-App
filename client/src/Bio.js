@@ -19,7 +19,6 @@ function Bio({ user, onBioChange, errors }) {
                 }}>Edit</button></p> 
                 : null}
             </div>
-
             :
             showBio ? (
                 <div>

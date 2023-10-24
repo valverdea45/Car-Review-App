@@ -15,12 +15,9 @@ function ReviewsList() {
     const { user, setUser } = useContext(UserContext)
     const [errors, setErrors] = useState([])
 
-
-
     const car = cars?.find((individualCar) => {
         return individualCar.id === carId
     })
-
 
     if (car === undefined) {
         return (
@@ -35,35 +32,31 @@ function ReviewsList() {
             car_id: car.id,
             body: body
         }
-        
-        if(user.id) {
-           fetch("/reviews", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(objToBeSent)
-        })
-            .then((res) => {
 
-                if (res.ok) {
-                    res.json().then((newReview) => {
-                        // adding review to review list
-                        addNewReview(newReview)
-                    })
-                } else {
-                    res.json().then((res) => {
-                        setErrors(res.errors)
-                    })
-                }
-            }) 
+        if (user.id) {
+            fetch("/reviews", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(objToBeSent)
+            })
+                .then((res) => {
+
+                    if (res.ok) {
+                        res.json().then((newReview) => {
+                            addNewReview(newReview)
+                        })
+                    } else {
+                        res.json().then((res) => {
+                            setErrors(res.errors)
+                        })
+                    }
+                })
         } else {
             setErrors(["You must be logged in before making any reviews"])
         }
-        
-
         setBody("")
-
     }
 
     function updatedReview(editedReview) {
@@ -94,7 +87,7 @@ function ReviewsList() {
 
     function addNewReview(newReview) {
 
-        setCars(cars => {
+        setCars((cars) => {
 
             const carIndex = cars.findIndex((car) => {
                 return car.id === carId
@@ -142,8 +135,8 @@ function ReviewsList() {
                 return oldCar
             }
         })
-
         setCars(newCarArray)
+        
         setUser((user) => {
 
             const newRemovedReviewedCarsArray = user.cars_reviewed.filter((individualCar) => {
@@ -154,7 +147,7 @@ function ReviewsList() {
             })
 
             const newRemovedReviewArray = user.reviews.filter((review) => {
-               return review.id !== toBeDeletedReview.id
+                return review.id !== toBeDeletedReview.id
             })
 
             return {
